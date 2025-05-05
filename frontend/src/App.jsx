@@ -3,62 +3,83 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import CategoryFilter from './components/CategoryFilter';
 import StartupContainer from './components/StartupContainer';
-
-// Dummy data for startups (this should be fetched from an API too in the real world)
-const dummyData = [
-  {
-    name: 'The Kenko Life',
-    category: 'Nutrition & Diet',
-    description:
-      "The Kenko Life delivers healthy, pre-prepared meals daily to customers' doorsteps. Their target market is health-conscious individuals seeking convenient, nutritionally balanced food. A key differentiator is their daily-changing menu, avoiding meal repetition for 26 days. They offer free consultations with a nutritionist.",
-    founders: 'Neeraj Kumar Yadav, Vivek Chandran',
-    website: '#',
-    linkedin: '#',
-  },
-  {
-    name: 'Allo Health',
-    category: 'Sexual Health',
-    description: 'Clinic for erectile dysfunction, premature ejaculation...',
-    founders: 'Pranay Jivrajka',
-    website: '#',
-    linkedin: '#',
-  },
-];
+import Footer from './components/Footer.jsx'
 
 function App() {
   const [categories, setCategories] = useState([]);
+  const [startups, setStartups] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
 
+  // Fetch categories and startups on component mount
   useEffect(() => {
-    // Fetch categories from an API (replace with your real API endpoint)
-    fetch('https://api.example.com/categories')
-      .then((response) => response.json())
-      .then((data) => {
-        // Assuming the data returned is an array of categories
-        setCategories(['all', ...data]);  // Add 'all' as the default category
-      })
-      .catch((error) => console.error('Error fetching categories:', error));
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/categories');
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+
+        const data = await response.json();
+        console.log('Categories:', data);
+
+        if (data.success && Array.isArray(data.data)) {
+          setCategories(['all', ...data.data]);
+        } else {
+          throw new Error('Invalid categories response structure');
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setCategories(['all']); // fallback
+      }
+    };
+
+    const fetchStartups = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/startups');
+        if (!response.ok) {
+          throw new Error('Failed to fetch startups');
+        }
+
+        const data = await response.json();
+        console.log('Startups:', data);
+
+        if (data.success && Array.isArray(data.data)) {
+          setStartups(data.data);
+        } else {
+          throw new Error('Invalid startups response structure');
+        }
+      } catch (error) {
+        console.error('Error fetching startups:', error);
+        setStartups([]); // fallback
+      }
+    };
+
+    fetchCategories();
+    fetchStartups();
   }, []);
 
+  // Handle category change
   const handleCategoryChange = (newCategory) => {
     setSelectedCategory(newCategory);
   };
 
-  // Filter the startups based on selected category
-  const filteredStartups = selectedCategory === 'all'
-    ? dummyData
-    : dummyData.filter((startup) => startup.category === selectedCategory);
+  // Filter startups based on selected category
+  const filteredStartups =
+    selectedCategory === 'all'
+      ? startups
+      : startups.filter((startup) => startup.category === selectedCategory);
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <Navbar />
       <Hero />
-      <CategoryFilter 
-        categories={categories} 
-        selected={selectedCategory} 
-        onChange={handleCategoryChange} 
+      <CategoryFilter
+        categories={categories}
+        selected={selectedCategory}
+        onChange={handleCategoryChange}
       />
       <StartupContainer startups={filteredStartups} />
+      <Footer />
     </div>
   );
 }

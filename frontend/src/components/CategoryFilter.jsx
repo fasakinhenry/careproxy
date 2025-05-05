@@ -17,6 +17,11 @@ const CategoryFilter = ({ categories = [], selected, onChange }) => {
     }
   };
 
+  // Filter out 'all' from the categories array to prevent duplicate keys
+  const filteredCategories = categories.filter(
+    (category) => category !== 'all'
+  );
+
   return (
     <div className='bg-white border-b border-gray-200'>
       <div className='container mx-auto px-4 py-4'>
@@ -44,8 +49,10 @@ const CategoryFilter = ({ categories = [], selected, onChange }) => {
               </SelectTrigger>
 
               <SelectContent className='max-h-60 overflow-y-auto'>
-                <SelectItem value='all'>All Categories</SelectItem>
-                {categories.map((category) => (
+                <SelectItem key='all-categories' value='all'>
+                  All Categories
+                </SelectItem>
+                {filteredCategories.map((category) => (
                   <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>
