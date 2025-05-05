@@ -6,7 +6,7 @@ const cron = require('node-cron');
 const cors = require('cors'); // Importing CORS
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 const DATA_PATH = path.join(__dirname, 'data', 'startups.json');
 
 // Enable CORS for all routes (you can adjust this for more specific handling)
