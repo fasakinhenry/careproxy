@@ -73,7 +73,6 @@ const StartupCard = ({ startup }) => {
           </div>
           <div className='flex items-center gap-2 mb-4'>
             <Users className='text-gray-400 flex-shrink-0 w-4 h-4' />{' '}
-            {/* Corrected icon for multiple people */}
             <p className='text-sm text-gray-600 truncate'>{startup.founders}</p>
           </div>
           <div className='flex items-center gap-4 pt-3 border-t border-gray-100 mt-auto'>
@@ -83,7 +82,7 @@ const StartupCard = ({ startup }) => {
               rel='noopener noreferrer'
               className='flex items-center gap-1.5 text-sm text-emerald-600 hover:text-emerald-700 transition-colors'
             >
-              <Globe className='w-4 h-4' /> {/* Corrected icon size */}
+              <Globe className='w-4 h-4' />
               <span>Website</span>
             </a>
             <a
@@ -92,7 +91,7 @@ const StartupCard = ({ startup }) => {
               rel='noopener noreferrer'
               className='flex items-center gap-1.5 text-sm text-[#0A66C2] hover:text-[#0A66C2] transition-colors'
             >
-              <Link className='w-4 h-4' /> {/* Corrected icon size */}
+              <Link className='w-4 h-4' />
               <span>LinkedIn</span>
             </a>
           </div>
