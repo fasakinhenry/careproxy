@@ -80,6 +80,30 @@ app.get('/api/startups', (req, res) => {
   }
 });
 
+// API endpoint to fetch categories data
+app.get('/api/categories', (req, res) => {
+  try {
+    const data = fs.readFileSync(DATA_PATH, 'utf-8');
+    const startups = JSON.parse(data);
+
+    // Extract categories from the startups data
+    const categories = [
+      'all', // Adding 'all' as a default category
+      ...new Set(startups.map((startup) => startup.category)), // Get unique categories
+    ];
+
+    res.json({ success: true, data: categories });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Error fetching categories',
+        error: error.message,
+      });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
