@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, Link, Users } from 'lucide-react';
+import { Globe, Link, Users, ChevronDown, ChevronUp } from 'lucide-react';
 
 const StartupCard = ({ startup }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -7,6 +7,10 @@ const StartupCard = ({ startup }) => {
   const toggleDescription = () => {
     setIsExpanded(!isExpanded);
   };
+
+  // Check if description is long enough to need truncation
+  const needsTruncation =
+    startup.description && startup.description.length > 185;
 
   return (
     <div className='h-full' style={{ opacity: 1, transform: 'none' }}>
@@ -22,53 +26,33 @@ const StartupCard = ({ startup }) => {
           </h3>
           <div className='mb-4'>
             <div className='relative'>
-              <p className='text-sm text-gray-600 leading-relaxed min-h-[4.5rem] line-clamp-3'>
-                {isExpanded
-                  ? startup.description
-                  : `${startup.description.substring(0, 185)}...`}
-              </p>
-              <button
-                onClick={toggleDescription}
-                className='text-xs text-emerald-600 hover:text-emerald-700 transition-colors mt-1 flex items-center gap-1'
+              <p
+                className={`text-sm text-gray-600 leading-relaxed ${
+                  isExpanded ? '' : 'min-h-[4.5rem] line-clamp-3'
+                }`}
               >
-                {isExpanded ? (
-                  <>
-                    Read less
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='14'
-                      height='14'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='lucide lucide-chevron-down'
-                    >
-                      <path d='m6 9 6 6 6-6'></path>
-                    </svg>
-                  </>
-                ) : (
-                  <>
-                    Read more
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='14'
-                      height='14'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='lucide lucide-chevron-down'
-                    >
-                      <path d='m6 9 6 6 6-6'></path>
-                    </svg>
-                  </>
-                )}
-              </button>
+                {isExpanded || !needsTruncation
+                  ? startup.description
+                  : `${startup.description.substring(0, 187)}...`}
+              </p>
+              {needsTruncation && (
+                <button
+                  onClick={toggleDescription}
+                  className='text-xs text-emerald-600 hover:text-emerald-700 transition-colors mt-1 flex items-center gap-1'
+                >
+                  {isExpanded ? (
+                    <>
+                      Read less
+                      <ChevronUp className='w-4 h-4' />
+                    </>
+                  ) : (
+                    <>
+                      Read more
+                      <ChevronDown className='w-4 h-4' />
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
           <div className='flex items-center gap-2 mb-4'>

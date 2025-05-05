@@ -36,13 +36,13 @@ const Navbar = () => {
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span className="whitespace-nowrap">
-                  email to: sharayushendre7@gmail.com
+                  email to: fasakinhenry@gmail.com
                 </span>
               </a>
 
               {/* Mobile LinkedIn */}
               <a
-                href="https://linkedin.com/in/sharayushendre"
+                href="https://linkedin.com/in/fasakin-henry"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-900 hover:text-[#0A66C2] transition-colors block sm:hidden"
@@ -57,7 +57,7 @@ const Navbar = () => {
             {/* Desktop LinkedIn */}
             <div className="items-center gap-4 mt-2 sm:mt-0 sm:ml-4 sm:block hidden">
               <a
-                href="https://linkedin.com/in/sharayushendre"
+                href="https://linkedin.com/in/fasakin-henry"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-900 hover:text-[#0A66C2] transition-colors"
