@@ -1,8 +1,9 @@
+// src/App.jsx
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
-import StartupCard from './components/StartupCard';
+import StartupContainer from './components/StartupContainer';
 
 const dummyData = [
   {
@@ -30,11 +31,7 @@ function App() {
       <Navbar />
       <Hero />
       <CategoryFilter />
-      <div className="px-6 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {dummyData.map((startup, index) => (
-          <StartupCard key={index} startup={startup} />
-        ))}
-      </div>
+      <StartupContainer startups={dummyData} />
     </div>
   );
 }

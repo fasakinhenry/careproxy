@@ -55,7 +55,7 @@ const Navbar = () => {
             </span>
 
             {/* Desktop LinkedIn */}
-            <div className="flex items-center gap-4 mt-2 sm:mt-0 sm:ml-4 sm:block hidden">
+            <div className="items-center gap-4 mt-2 sm:mt-0 sm:ml-4 sm:block hidden">
               <a
                 href="https://linkedin.com/in/sharayushendre"
                 target="_blank"
