@@ -3,10 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const cron = require('node-cron');
+const cors = require('cors'); // Importing CORS
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 const DATA_PATH = path.join(__dirname, 'data', 'startups.json');
+
+// Enable CORS for all routes (you can adjust this for more specific handling)
+app.use(cors());
 
 // Create /data folder if it doesn't exist
 if (!fs.existsSync(path.join(__dirname, 'data'))) {
@@ -49,6 +53,7 @@ async function scrapeAndSave() {
       });
     });
 
+    // Save scraped data to startups.json
     fs.writeFileSync(DATA_PATH, JSON.stringify(startups, null, 2), 'utf-8');
     console.log('✅ Scraped and saved startups.json');
 
@@ -58,14 +63,20 @@ async function scrapeAndSave() {
   }
 }
 
-// API endpoint
+// API endpoint to fetch startups data
 app.get('/api/startups', (req, res) => {
   try {
     const data = fs.readFileSync(DATA_PATH, 'utf-8');
     const startups = JSON.parse(data);
     res.json({ success: true, data: startups });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Data not available' });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Data not available',
+        error: error.message,
+      });
   }
 });
 
@@ -73,10 +84,10 @@ app.get('/api/startups', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 
-  // Run once on startup
+  // Run scrapeAndSave once when the server starts
   scrapeAndSave();
 
-  // Schedule every 30 minutes
+  // Schedule scraping every 30 minutes
   cron.schedule('*/30 * * * *', () => {
     console.log('⏳ Scheduled scraping...');
     scrapeAndSave();
