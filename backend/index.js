@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load env vars first
+
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
@@ -7,12 +9,13 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const SCRAPE_URL = process.env.SCRAPE_URL;
 const DATA_PATH = path.join(__dirname, 'data', 'startups.json');
 
-// Enable CORS for all routes
+// Enable CORS
 app.use(cors());
 
-// Create /data folder if it doesn't exist
+// Ensure /data directory exists
 if (!fs.existsSync(path.join(__dirname, 'data'))) {
   fs.mkdirSync(path.join(__dirname, 'data'));
 }
@@ -25,26 +28,23 @@ async function scrapeAndSave() {
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
       timeout: 0,
     });
-    
+
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(60000);
     page.setDefaultTimeout(60000);
-    
-    await page.goto('https://healthstartup.vercel.app/', {
-      waitUntil: 'networkidle0',
-    });
-    
-    // Use a more specific selector to target only the startup cards
+
+    await page.goto(SCRAPE_URL, { waitUntil: 'networkidle0' });
+
     await page.waitForSelector('main div.grid div.h-full');
-    
+
     const startups = await page.$$eval('main div.grid > div', (cards) => {
-      // Filter out any non-startup card elements
-      const startupCards = cards.filter(card => 
-        card.querySelector('h3') && 
-        card.querySelector('span') && 
-        card.querySelector('p')
+      const startupCards = cards.filter(
+        (card) =>
+          card.querySelector('h3') &&
+          card.querySelector('span') &&
+          card.querySelector('p')
       );
-      
+
       return startupCards.map((card) => {
         const category = card.querySelector('span')?.textContent.trim();
         const name = card.querySelector('h3')?.textContent.trim();
@@ -53,38 +53,41 @@ async function scrapeAndSave() {
           .querySelector('svg.lucide-users ~ p')
           ?.textContent.trim();
         const links = card.querySelectorAll('a');
-        
+
         const website = links[0]?.href || null;
         const linkedin = links[1]?.href || null;
-        
+
         return { name, category, description, founders, website, linkedin };
       });
     });
-    
-    // Remove any duplicate entries based on name
+
     const uniqueStartups = removeDuplicates(startups, 'name');
-    
-    // Save scraped data to startups.json
-    fs.writeFileSync(DATA_PATH, JSON.stringify(uniqueStartups, null, 2), 'utf-8');
-    console.log(`✅ Scraped and saved ${uniqueStartups.length} unique startups to startups.json`);
-    
+
+    fs.writeFileSync(
+      DATA_PATH,
+      JSON.stringify(uniqueStartups, null, 2),
+      'utf-8'
+    );
+    console.log(
+      `✅ Scraped and saved ${uniqueStartups.length} unique startups to startups.json`
+    );
+
     await browser.close();
   } catch (error) {
     console.error('❌ Scraping failed:', error);
   }
 }
 
-// Helper function to remove duplicates based on a key
+// Remove duplicates by key
 function removeDuplicates(array, key) {
-  return [...new Map(array.map(item => [item[key], item])).values()];
+  return [...new Map(array.map((item) => [item[key], item])).values()];
 }
 
-// API endpoint to fetch startups data
+// Endpoints
 app.get('/api/startups', (req, res) => {
   try {
     const data = fs.readFileSync(DATA_PATH, 'utf-8');
-    const startups = JSON.parse(data);
-    res.json({ success: true, data: startups });
+    res.json({ success: true, data: JSON.parse(data) });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -94,18 +97,11 @@ app.get('/api/startups', (req, res) => {
   }
 });
 
-// API endpoint to fetch categories data
 app.get('/api/categories', (req, res) => {
   try {
     const data = fs.readFileSync(DATA_PATH, 'utf-8');
     const startups = JSON.parse(data);
-    
-    // Extract categories from the startups data
-    const categories = [
-      'all', // Adding 'all' as a default category
-      ...new Set(startups.map((startup) => startup.category)), // Get unique categories
-    ];
-    
+    const categories = ['all', ...new Set(startups.map((s) => s.category))];
     res.json({ success: true, data: categories });
   } catch (error) {
     res.status(500).json({
@@ -116,14 +112,12 @@ app.get('/api/categories', (req, res) => {
   }
 });
 
-// Start server
+// Server start
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
-  
-  // Run scrapeAndSave once when the server starts
+
   scrapeAndSave();
-  
-  // Schedule scraping every 30 minutes
+
   cron.schedule('*/30 * * * *', () => {
     console.log('⏳ Scheduled scraping...');
     scrapeAndSave();
