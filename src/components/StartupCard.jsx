@@ -1,20 +1,102 @@
-import React from "react";
-import { FiExternalLink, FiLinkedin } from "react-icons/fi";
+import React, { useState } from 'react';
+import { Globe, Link, Users } from 'lucide-react';
 
 const StartupCard = ({ startup }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div className="bg-white p-4 rounded-md shadow-sm flex flex-col justify-between">
-      <span className="text-xs bg-red-100 text-red-600 rounded px-2 py-0.5 w-max mb-2">{startup.category}</span>
-      <h2 className="font-semibold text-md mb-1">{startup.name}</h2>
-      <p className="text-sm text-gray-600 line-clamp-4 mb-3">{startup.description}</p>
-      <div className="text-sm text-gray-700 mb-2">{startup.founders}</div>
-      <div className="flex items-center gap-4 text-sm text-green-600">
-        <a href={startup.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-          <FiExternalLink /> Website
-        </a>
-        <a href={startup.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-          <FiLinkedin /> LinkedIn
-        </a>
+    <div className='h-full' style={{ opacity: 1, transform: 'none' }}>
+      <div className='rounded-lg text-card-foreground shadow-sm h-full relative overflow-hidden group hover:shadow-lg transition-all duration-300 bg-white border border-gray-100'>
+        <div className='p-6 flex flex-col h-full'>
+          <div className='mb-3'>
+            <span className='inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-rose-50 text-rose-700'>
+              {startup.category}
+            </span>
+          </div>
+          <h3 className='text-lg font-semibold text-gray-900 min-h-[3.5rem] line-clamp-2'>
+            {startup.name}
+          </h3>
+          <div className='mb-4'>
+            <div className='relative'>
+              <p className='text-sm text-gray-600 leading-relaxed min-h-[4.5rem] line-clamp-3'>
+                {isExpanded
+                  ? startup.description
+                  : `${startup.description.substring(0, 185)}...`}
+              </p>
+              <button
+                onClick={toggleDescription}
+                className='text-xs text-emerald-600 hover:text-emerald-700 transition-colors mt-1 flex items-center gap-1'
+              >
+                {isExpanded ? (
+                  <>
+                    Read less
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='14'
+                      height='14'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      className='lucide lucide-chevron-down'
+                    >
+                      <path d='m6 9 6 6 6-6'></path>
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    Read more
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='14'
+                      height='14'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      className='lucide lucide-chevron-down'
+                    >
+                      <path d='m6 9 6 6 6-6'></path>
+                    </svg>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+          <div className='flex items-center gap-2 mb-4'>
+            <Users className='text-gray-400 flex-shrink-0 w-4 h-4' />{' '}
+            {/* Corrected icon for multiple people */}
+            <p className='text-sm text-gray-600 truncate'>{startup.founders}</p>
+          </div>
+          <div className='flex items-center gap-4 pt-3 border-t border-gray-100 mt-auto'>
+            <a
+              href={startup.website}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex items-center gap-1.5 text-sm text-emerald-600 hover:text-emerald-700 transition-colors'
+            >
+              <Globe className='w-4 h-4' /> {/* Corrected icon size */}
+              <span>Website</span>
+            </a>
+            <a
+              href={startup.linkedin}
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex items-center gap-1.5 text-sm text-[#0A66C2] hover:text-[#0A66C2] transition-colors'
+            >
+              <Link className='w-4 h-4' /> {/* Corrected icon size */}
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

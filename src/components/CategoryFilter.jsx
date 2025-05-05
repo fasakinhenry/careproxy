@@ -3,7 +3,7 @@ import { Filter, ChevronDown } from 'lucide-react';
 
 const CategoryFilter = ({ categories = [], selected, onChange }) => {
   return (
-    <div className="bg-white border-b">
+    <div className="bg-white border-b border-gray-200">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <p className="text-sm text-gray-600">

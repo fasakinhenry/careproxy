@@ -10,7 +10,7 @@ const dummyData = [
     name: 'The Kenko Life',
     category: 'Nutrition & Diet',
     description:
-      "Delivers healthy, pre-prepared meals to customers' doorsteps...",
+      "The Kenko Life delivers healthy, pre-prepared meals daily to customers' doorsteps. Their target market is health-conscious individuals seeking convenient, nutritionally balanced food. A key differentiator is their daily-changing menu, avoiding meal repetition for 26 days. They offer free consultations with a nutritionist.",
     founders: 'Neeraj Kumar Yadav, Vivek Chandran',
     website: '#',
     linkedin: '#',
@@ -27,7 +27,7 @@ const dummyData = [
 
 function App() {
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className='bg-gray-50 min-h-screen'>
       <Navbar />
       <Hero />
       <CategoryFilter />
