@@ -7,8 +7,9 @@ const Navbar = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           {/* Left Links */}
           <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
+            {/* Normal link to Google form: https://forms.gle/Ev64W7M3aBZBbzQy8 */}
             <a
-              href="https://forms.gle/Ev64W7M3aBZBbzQy8"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-900 hover:text-emerald-600 font-medium transition-colors whitespace-nowrap"
