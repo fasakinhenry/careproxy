@@ -20,6 +20,11 @@ if (!fs.existsSync(path.join(__dirname, 'data'))) {
   fs.mkdirSync(path.join(__dirname, 'data'));
 }
 
+// Ensure startups.json exists
+if (!fs.existsSync(DATA_PATH)) {
+  fs.writeFileSync(DATA_PATH, '[]', 'utf-8');
+}
+
 // Scraping logic
 async function scrapeAndSave() {
   try {
@@ -114,17 +119,25 @@ app.get('/api/categories', (req, res) => {
 
 // Health check endpoint
 app.get('/health', (req, res) => {
+  console.log(`[${new Date().toISOString()}] 🛎️ Health check ping received`);
   res.status(200).send('OK');
 });
 
-// Server start
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
 
-  scrapeAndSave();
+// Initial scrape outside `.listen()`
+scrapeAndSave();
 
-  cron.schedule('*/30 * * * *', () => {
-    console.log('⏳ Scheduled scraping...');
-    scrapeAndSave();
-  });
+// Cron scraping every 30 minutes with error handling
+cron.schedule('*/30 * * * *', async () => {
+  console.log('⏳ Scheduled scraping started...');
+  try {
+    await scrapeAndSave();
+    console.log('✅ Scheduled scraping completed.');
+  } catch (err) {
+    console.error('❌ Scheduled scraping error:', err.message);
+  }
 });
