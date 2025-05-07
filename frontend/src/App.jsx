@@ -71,7 +71,7 @@ function App() {
         categories={['all', ...categories]}
         selected={selectedCategory}
         onChange={handleCategoryChange}
-        totalStartups={startups.length} // Pass total number of startups
+        totalStartups={filteredStartups.length} // Pass total number of startups
       />
       <StartupContainer startups={filteredStartups} isLoading={isLoading} />
       <Footer />
