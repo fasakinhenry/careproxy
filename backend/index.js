@@ -10,10 +10,16 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const SCRAPE_URL = process.env.SCRAPE_URL;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 const DATA_PATH = path.join(__dirname, 'data', 'startups.json');
 
-// Enable CORS
-app.use(cors());
+// Enable CORS only for frontend origin
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
+  })
+);
 
 // Ensure /data directory exists
 if (!fs.existsSync(path.join(__dirname, 'data'))) {
