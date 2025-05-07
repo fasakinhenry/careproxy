@@ -118,7 +118,7 @@ app.get('/api/categories', (req, res) => {
 });
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   console.log(`[${new Date().toISOString()}] 🛎️ Health check ping received`);
   res.status(200).send('OK');
 });
