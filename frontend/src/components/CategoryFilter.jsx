@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/select';
 import { Filter } from 'lucide-react';
 
-const CategoryFilter = ({ categories = [], selected, onChange }) => {
+const CategoryFilter = ({ categories = [], selected, onChange, totalStartups }) => {
   const [selectedCategory, setSelectedCategory] = useState(selected || 'all');
 
   const handleCategoryChange = (newValue) => {
@@ -27,7 +27,10 @@ const CategoryFilter = ({ categories = [], selected, onChange }) => {
       <div className='container mx-auto px-4 py-4'>
         <div className='flex items-center justify-between'>
           <p className='text-sm text-gray-600'>
-            Showing <span className='font-semibold text-emerald-600'>108</span>{' '}
+            Showing{' '}
+            <span className='font-semibold text-emerald-600'>
+              {totalStartups || 0}
+            </span>{' '}
             total startups
           </p>
           <div className='flex items-center space-x-3'>
@@ -39,7 +42,7 @@ const CategoryFilter = ({ categories = [], selected, onChange }) => {
               <SelectTrigger
                 role='combobox'
                 aria-expanded={selectedCategory !== 'all'}
-                className='flex h-10 items-center justify-between rounded-md border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[150px] border-emerald-200'
+                className='flex h-10 items-center justify-between rounded-md border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none'
               >
                 <span style={{ pointerEvents: 'none' }}>
                   {selectedCategory === 'all'
