@@ -41,7 +41,9 @@ function App() {
           throw new Error('Invalid startups response structure');
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error fetching data:', error);
+        }
         setCategories([]);
         setStartups([]);
       } finally {
