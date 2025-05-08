@@ -57,8 +57,7 @@ function App() {
     const inSearch =
       startup.name.toLowerCase().includes(searchQuery) ||
       (startup.description && startup.description.toLowerCase().includes(searchQuery)) ||
-      (startup.tags && startup.tags.some(tag => tag.toLowerCase().includes(searchQuery))) ||
-      (startup.founders && startup.founders.some(founder => founder.toLowerCase().includes(searchQuery)));
+      (startup.tags && startup.tags.some(tag => tag.toLowerCase().includes(searchQuery)));
 
     return inCategory && inSearch;
   });
