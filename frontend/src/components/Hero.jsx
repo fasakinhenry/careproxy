@@ -1,8 +1,7 @@
 import React from 'react';
-import { Search } from 'lucide-react';
 import SearchBar from './SearchBar';
 
-const Hero = () => {
+const Hero = ({ onSearch }) => {
   return (
     <section className='relative bg-emerald-700 text-white'>
       <div
@@ -22,9 +21,7 @@ const Hero = () => {
             that are revolutionizing patient care and overall wellbeing!
           </p>
           <div className='max-w-2xl mx-auto mt-8'>
-            <div className='relative'>
-              <SearchBar />
-            </div>
+            <SearchBar onSearch={onSearch} />
           </div>
         </div>
       </div>
