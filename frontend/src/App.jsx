@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -78,7 +79,11 @@ function App() {
         onChange={handleCategoryChange}
         totalStartups={filteredStartups.length}
       />
-      <StartupContainer startups={filteredStartups} isLoading={isLoading} />
+      <StartupContainer
+        startups={filteredStartups}
+        isLoading={isLoading}
+        searchQuery={searchQuery}
+      />
       <Footer />
     </div>
   );
