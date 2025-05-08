@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Globe, Link, Users, ChevronDown, ChevronUp } from 'lucide-react';
-import { highlightMatch } from '../utils/highlightMatch'; // adjust path if needed
+import { highlightMatch } from '../';
 
 const StartupCard = ({ startup, searchQuery }) => {
   const [isExpanded, setIsExpanded] = useState(false);
