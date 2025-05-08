@@ -19,7 +19,8 @@ function App() {
       setIsLoading(true);
       try {
         const categoriesResponse = await fetch(`${BASE_URL}/api/categories`);
-        if (!categoriesResponse.ok) throw new Error('Failed to fetch categories');
+        if (!categoriesResponse.ok)
+          throw new Error('Failed to fetch categories');
         const categoriesData = await categoriesResponse.json();
         if (categoriesData.success && Array.isArray(categoriesData.data)) {
           setCategories(categoriesData.data.filter((cat) => cat !== 'all'));
@@ -54,10 +55,17 @@ function App() {
   const filteredStartups = startups.filter((startup) => {
     const inCategory =
       selectedCategory === 'all' || startup.category === selectedCategory;
+
     const inSearch =
       startup.name.toLowerCase().includes(searchQuery) ||
-      (startup.description && startup.description.toLowerCase().includes(searchQuery)) ||
-      (startup.tags && startup.tags.some(tag => tag.toLowerCase().includes(searchQuery)));
+      (startup.description &&
+        startup.description.toLowerCase().includes(searchQuery)) ||
+      (startup.tags &&
+        startup.tags.some((tag) => tag.toLowerCase().includes(searchQuery))) ||
+      (startup.founders &&
+        startup.founders.some((founder) =>
+          founder.toLowerCase().includes(searchQuery)
+        ));
 
     return inCategory && inSearch;
   });
