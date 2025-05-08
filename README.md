@@ -1,3 +1,6 @@
+
+![image](https://github.com/user-attachments/assets/461b7f6e-c872-497e-8447-fef8a225d9c9)
+
 # CareProxy - Discover Healthcare Startups
 
 CareProxy is a platform designed to help users explore innovative healthcare startups that are revolutionizing patient care and overall wellbeing. From nutrition and fitness to mental health and medical devices, CareProxy connects you with startups making a difference in the healthcare industry.
