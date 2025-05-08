@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { Globe, Link, Users, ChevronDown, ChevronUp } from 'lucide-react';
+import { highlightMatch } from '../utils/highlightMatch'; // adjust path if needed
 
-const StartupCard = ({ startup }) => {
+const StartupCard = ({ startup, searchQuery }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleDescription = () => {
     setIsExpanded(!isExpanded);
   };
 
-  // Check if description is long enough to need truncation
   const needsTruncation =
     startup.description && startup.description.length > 185;
+
+  // If truncating, highlight only the visible part
+  const truncatedDescription = highlightMatch(
+    startup.description?.substring(0, 187) + '...',
+    searchQuery
+  );
 
   return (
     <div className='h-full' style={{ opacity: 1, transform: 'none' }}>
@@ -21,20 +27,20 @@ const StartupCard = ({ startup }) => {
               {startup.category}
             </span>
           </div>
+
           <h3 className='text-lg font-semibold text-gray-900 min-h-[3.5rem] line-clamp-2'>
-            {startup.name}
+            {highlightMatch(startup.name, searchQuery)}
           </h3>
+
           <div className='mb-4'>
-            <div className='relative'>
-              <p
-                className={`text-sm text-gray-600 leading-relaxed ${
-                  isExpanded ? '' : 'min-h-[4.5rem] line-clamp-3'
-                }`}
-              >
-                {isExpanded || !needsTruncation
-                  ? startup.description
-                  : `${startup.description.substring(0, 187)}...`}
-              </p>
+            <div className='relative text-sm text-gray-600 leading-relaxed'>
+              {isExpanded || !needsTruncation ? (
+                highlightMatch(startup.description, searchQuery)
+              ) : (
+                <span className='min-h-[4.5rem] line-clamp-3'>
+                  {truncatedDescription}
+                </span>
+              )}
               {needsTruncation && (
                 <button
                   onClick={toggleDescription}
@@ -55,10 +61,14 @@ const StartupCard = ({ startup }) => {
               )}
             </div>
           </div>
+
           <div className='flex items-center gap-2 mb-4'>
-            <Users className='text-gray-400 flex-shrink-0 w-4 h-4' />{' '}
-            <p className='text-sm text-gray-600 truncate'>{startup.founders}</p>
+            <Users className='text-gray-400 flex-shrink-0 w-4 h-4' />
+            <p className='text-sm text-gray-600 truncate'>
+              {highlightMatch(startup.founders, searchQuery)}
+            </p>
           </div>
+
           <div className='flex items-center gap-4 pt-3 border-t border-gray-100 mt-auto'>
             <a
               href={startup.website}
