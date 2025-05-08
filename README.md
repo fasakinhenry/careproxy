@@ -90,8 +90,8 @@ CareProxy is a platform designed to help users explore innovative healthcare sta
 ## API Endpoints
 
 Backend
-- GET /api/startups: Fetch all startups.
-- GET /api/categories: Fetch all categories.
-- GET /api/scrape: Trigger a manual scrape of startup data.
+- **GET** /api/startups: Fetch all startups.
+- **GET** /api/categories: Fetch all categories.
+- **GET** /api/scrape: Trigger a manual scrape of startup data.
 
 > Made with ❤️ by [Fasakin Henry](https://github.com/fasakinhenry)
