@@ -63,9 +63,7 @@ function App() {
       (startup.tags &&
         startup.tags.some((tag) => tag.toLowerCase().includes(searchQuery))) ||
       (startup.founders &&
-        startup.founders.some((founder) =>
-          founder.toLowerCase().includes(searchQuery)
-        ));
+        startup.founders.toLowerCase().includes(searchQuery));
 
     return inCategory && inSearch;
   });
