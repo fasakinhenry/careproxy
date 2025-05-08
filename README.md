@@ -34,20 +34,24 @@ CareProxy is a platform designed to help users explore innovative healthcare sta
 
 ### Backend Setup
 1. Navigate to the `backend` directory:
+   
    ```bash
    cd backend
    ```
 2. Install dependencies:
+   
    ```bash
     npm install
     ```
 3. Create a `.env` file based on the `.env.example` file and configure your environment variables:
+   
    ```bash
    SCRAPE_URL=https://healthstartup.vercel.app/
    PORT=5000
    FRONTEND_URL=http://localhost:3000
    ```
 4. Start the backend server:
+   
    ```bash
     npm start
     ```
@@ -55,18 +59,22 @@ CareProxy is a platform designed to help users explore innovative healthcare sta
 ### Frontend Setup
 
 1. Navigate to the `frontend` directory:
+   
    ```bash
    cd frontend
    ```
 2. Install dependencies:
+   
    ```bash
    npm install
    ```
 3. Create a .env file and configure the API base URL:
+   
     ```bash
     VITE_API_BASE_URL=http://localhost:5000
     ```
 4. Start the frontend development server:
+   
     ```bash
     npm run dev
     ```
